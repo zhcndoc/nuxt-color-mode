@@ -1,11 +1,10 @@
 export default defineAppConfig({
   docus: {
-    title: 'Nuxt Color Mode',
+    title: 'Nuxt Color Mode 中文文档',
     layout: 'default',
-    url: 'https://color-mode.nuxtjs.org',
+    url: 'https://nuxt-color-mode.zhcndoc.com',
     description: 'Dark and Light mode with auto detection made easy with Nuxt 🌗',
     socials: {
-      twitter: 'nuxt_js',
       github: 'nuxt-modules/color-mode',
     },
     aside: {
