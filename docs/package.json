@@ -2,7 +2,7 @@
   "name": "nuxt-color-mode-docs",
   "version": "1.0.0",
   "description": "Dark and Light mode with auto detection made easy with Nuxt",
-  "homepage": "https://color-mode.nuxtjs.org/",
+  "homepage": "https://nuxt-color-mode.zhcndoc.com",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@nuxt-themes/docus": "^1.15.0",
-    "@nuxtjs/plausible": "^1.0.0",
-    "nuxt": "^3.12.3"
-  }
+    "nuxt": "^3.12.4"
+  },
+  "packageManager": "pnpm@9.6.0"
 }
