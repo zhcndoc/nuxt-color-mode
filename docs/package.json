@@ -4,6 +4,7 @@
   "description": "Dark and Light mode with auto detection made easy with Nuxt",
   "homepage": "https://nuxt-color-mode.zhcndoc.com",
   "type": "module",
+  "packageManager": "pnpm@9.7.0",
   "license": "MIT",
   "scripts": {
     "dev": "nuxi dev",
@@ -14,6 +15,5 @@
   "devDependencies": {
     "@nuxt-themes/docus": "^1.15.0",
     "nuxt": "^3.12.4"
-  },
-  "packageManager": "pnpm@9.6.0"
+  }
 }
