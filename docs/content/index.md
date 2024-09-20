@@ -15,9 +15,9 @@ description: 轻松实现深色和浅色模式以及自动检测，适用于 Nux
 
 ## 实时演示
 
-[![Nuxt 颜色模式演示](https://user-images.githubusercontent.com/904724/79349768-f09cf080-7f36-11ea-93bb-20fae8c94811.gif){.border-b .border-r}](https://color-mode.nuxtjs.app)
+[![Nuxt 颜色模式演示](/demo.gif){.border-b .border-r}](https://color-mode.nuxtjs.app)
 
-检查 [在线演示](https://color-mode.nuxtjs.app) 和 [源代码](https://github.com/nuxt-modules/color-mode/tree/main/playground)。
+查看[在线演示](https://color-mode.nuxtjs.app)和[源代码](https://github.com/nuxt-modules/color-mode/tree/main/playground)。
 
 ## 设置
 
