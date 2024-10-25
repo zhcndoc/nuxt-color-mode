@@ -28,7 +28,7 @@ description: 轻松实现深色和浅色模式以及自动检测，适用于 Nux
 将 `@nuxtjs/color-mode` 依赖项添加到你的项目中：
 
 ```bash
-npx nuximodule add color-mode
+npx nuxi module add color-mode
 ```
 
 然后，在 `nuxt.config.ts` 的 `modules` 部分中添加 `@nuxtjs/color-mode`
