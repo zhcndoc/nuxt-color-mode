@@ -17,7 +17,7 @@ description: 轻松实现深色和浅色模式以及自动检测，适用于 Nux
 
 [![Nuxt 颜色模式演示](/demo.gif){.border-b .border-r}](https://color-mode.nuxtjs.app)
 
-查看[在线演示](https://color-mode.nuxtjs.app)和[源代码](https://github.com/nuxt-modules/color-mode/tree/main/playground)。
+查看 [在线演示](https://color-mode.nuxtjs.app) 和 [源代码](https://github.com/nuxt-modules/color-mode/tree/main/playground)。
 
 ## 设置
 
@@ -110,7 +110,7 @@ definePageMeta({
 
 这个特性非常适合逐步实施深色模式，通过将尚未准备好的页面设置为 `colorMode: 'light'`。
 
-::提示
+::callout
 我们建议隐藏或禁用页面上的颜色模式选择器，因为当前页面的颜色模式无法更改，使用 `$colorMode.forced` 值。
 ::
 
@@ -202,4 +202,3 @@ export default defineNuxtConfig({
 ## 许可证
 
 [MIT 许可证](https://github.com/nuxt-modules/color-mode/blob/main/LICENSE)
-
