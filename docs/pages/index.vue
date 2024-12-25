@@ -16,27 +16,14 @@ useSeoMeta({
 
 useHead({
   htmlAttrs: {
-    lang: 'zh-CN'
+    lang: 'zh-CN',
   },
   script: [
     {
-      'defer': '',
-      'src': 'https://analytics.ikxin.com/script.js',
-      'data-website-id': 'f0e90b0d-e086-4fdc-b173-de4857b71900'
+      async: '',
+      src: 'https://www.zhcndoc.com/js/common.js',
     },
-    {
-      'async': '',
-      'src': 'https://www.googletagmanager.com/gtag/js?id=G-HYH4TH7PWM',
-    },
-    {
-      innerHTML: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HYH4TH7PWM');
-      `
-    }
-  ]
+  ],
 })
 
 const communityLinks = computed(() => [
@@ -155,12 +142,19 @@ const communityLinks = computed(() => [
     </UContainer>
     <footer class="flex flex-col justify-center items-center gap-4 text-sm text-gray-400 dark:text-gray-400 m-4">
       <p>
-        <a target="_blank" href="https://www.zhcndoc.com?ref=nuxt-color-mode">
-            简中文档
+        <a
+          target="_blank"
+          href="https://www.zhcndoc.com"
+        >
+          简中文档
         </a>
         -
-        <a rel="nofollow" target="_blank" href="https://beian.miit.gov.cn">
-            沪ICP备2024070610号-3
+        <a
+          rel="nofollow"
+          target="_blank"
+          href="https://beian.miit.gov.cn"
+        >
+          沪ICP备2024070610号-3
         </a>
       </p>
     </footer>
