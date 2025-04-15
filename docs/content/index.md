@@ -130,7 +130,7 @@ export default defineNuxtConfig({
     globalName: '__NUXT_COLOR_MODE__',
     componentName: 'ColorScheme',
     classPrefix: '',
-    classSuffix: '-mode',
+    classSuffix: '',
     storage: 'localStorage', // 或 'sessionStorage' 或 'cookie'
     storageKey: 'nuxt-color-mode'
   }
