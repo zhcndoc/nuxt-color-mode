@@ -1,7 +1,5 @@
 {
   "app_dir": "/",
-  "cache_dependencies": false,
-  "build_command": "NITRO_PRESET=static pnpm run docs:build",
-  "install_command": "pnpm install",
+  "build_command": "pnpm run prepack && NITRO_PRESET=static pnpm run docs:build",
   "output_dir": "docs/.output/public"
 }
