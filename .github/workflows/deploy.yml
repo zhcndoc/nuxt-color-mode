@@ -19,9 +19,7 @@ jobs:
         with:
           node-version: 22
 
-      - env:
-          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
-        run: pnpm install && pnpm -w run docs:build
+      - run: pnpm install && pnpm run prepack && NITRO_PRESET=static pnpm run docs:build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

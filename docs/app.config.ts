@@ -1,7 +1,7 @@
 export default defineAppConfig({
   seo: {
-    title: 'Nuxt Color Mode 中文文档',
-    description: '使用 Nuxt 轻松实现自动检测的深色和浅色模式',
+    title: 'Nuxt Color Mode',
+    description: 'Dark and light mode with auto detection made easy with Nuxt',
     ogImage: '/social-card.jpg',
   },
   socials: {

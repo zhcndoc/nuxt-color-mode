@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ['docus'],
-  modules: ['@nuxtjs/plausible'],
+  // modules: ['@nuxtjs/plausible'],
   devtools: { enabled: true },
   app: {
     head: {
@@ -12,9 +12,6 @@ export default defineNuxtConfig({
   },
   site: {
     name: 'Nuxt Color Mode 中文文档',
-  },
-  ui: {
-    fonts: false,
   },
   compatibilityDate: '2024-09-13',
   llms: {
