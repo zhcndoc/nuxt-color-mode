@@ -1,0 +1,126 @@
+# 迁移指南
+
+> 主要版本之间迁移指南
+
+## 迁移到 v4
+
+`@nuxtjs/color-mode` 的 v4 版本要求 Nuxt 3+，不再支持 Nuxt Bridge。它还引入了若干重大变更以优化模块。
+
+### 主要变化
+
+#### 1. 去除默认类后缀
+
+默认的 `classSuffix` 已被移除。如果你之前依赖默认的 `-mode` 后缀，需在配置中显式设置：
+
+```ts
+export default defineNuxtConfig({
+  colorMode: {
+    classSuffix: '-mode'
+  }
+})
+```
+
+或者更新你的 CSS 类，去掉后缀：
+
+```diff
+- .dark-mode { }
+- .light-mode { }
++ .dark { }
++ .light { }
+```
+
+#### 2. 不再支持 CommonJS
+
+该模块不再提供 CommonJS 构建，确保你的项目使用 ESM（Nuxt 3 的默认配置）。
+
+#### 3. 颜色模式值只读
+
+无法再直接设置 `colorMode.value`，请改用 `colorMode.preference`：
+
+```diff
+<script setup>
+const colorMode = useColorMode()
+
+- colorMode.value = 'dark'
++ colorMode.preference = 'dark'
+</script>
+```
+
+`value` 属性现在是只读的，反映实际使用的颜色模式（使用系统偏好检测时，可能与 `preference` 不同）。
+
+#### 4. 移除 `hid` 选项
+
+已废弃的 `hid` 配置选项已被移除。如果你之前使用了它，直接删除即可：
+
+```diff
+export default defineNuxtConfig({
+  colorMode: {
+-   hid: 'nuxt-color-mode-script',
+    preference: 'system',
+  }
+})
+```
+
+#### 5. 不再支持 Nuxt Bridge
+
+不再支持 Nuxt Bridge。如果你仍在使用 Nuxt Bridge，建议继续使用 v3。否则请升级到 Nuxt 3+。
+
+---
+
+## 迁移到 v3
+
+`@nuxtjs/color-mode` 的 v3 版本需要 Nuxt Bridge 或 Nuxt 3+。如果你使用的是不带 Bridge 的 Nuxt 2，建议继续使用 v2。
+
+## 主要变化
+
+### 1. 页面元信息配置
+
+Nuxt 2 → Nuxt 3+ 之间的主要变化是在页面级别定义颜色模式，使用 `definePageMeta`：
+
+```diff
+<template>
+  <h1>此页面强制使用浅色模式</h1>
+</template>
+
+- <script>
+- export default {
+-   colorMode: 'light',
+- }
++ <script setup>
++ definePageMeta({
++   colorMode: 'light',
++ })
+</script>
+```
+
+<callout type="warning">
+
+如果你使用 Nuxt Bridge，不应使用 `definePageMeta`，应继续使用组件选项方式的 `colorMode`。
+
+</callout>
+
+### 2. 组合式 API
+
+`$colorMode` helper 保持不变，但新增了组合式函数 (`useColorMode`)，这是推荐的访问颜色模式信息的方式。
+
+```vue
+<script setup>
+const colorMode = useColorMode()
+
+// 访问属性
+console.log(colorMode.preference)
+console.log(colorMode.value)
+</script>
+```
+
+### 3. 类型导入
+
+如果你直接导入颜色模式配置类型，注意名称已改为 `ModuleOptions`。
+
+```ts
+// 之前
+import type { ColorModeConfig } from '@nuxtjs/color-mode'
+
+// 之后
+import type { ModuleOptions } from '@nuxtjs/color-mode'
+```

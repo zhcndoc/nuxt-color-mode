@@ -1,0 +1,29 @@
+# 安装
+
+> 学习如何安装和配置 Nuxt 颜色模式
+
+<callout>
+
+当前版本的 `@nuxtjs/color-mode` 兼容 [Nuxt 3+](https://nuxt.com)。如果你正在寻找该模块的旧版本，请查看 [v2.color-mode.nuxtjs.org](https://v2.color-mode.nuxtjs.org/)。
+
+</callout>
+
+## 设置
+
+将 `@nuxtjs/color-mode` 依赖添加到你的项目中：
+
+```bash
+npx nuxt module add color-mode
+```
+
+然后，将 `@nuxtjs/color-mode` 添加到你的 `nuxt.config.ts` 的 `modules` 部分：
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: [
+    '@nuxtjs/color-mode'
+  ]
+})
+```
+
+现在你可以开始在应用中使用 `.dark` 和 `.light` 类来使用颜色模式了 ✨

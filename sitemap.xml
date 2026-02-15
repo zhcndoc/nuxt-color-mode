@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/getting-started</loc>
+  </url>
+  <url>
+    <loc>/getting-started/installation</loc>
+  </url>
+  <url>
+    <loc>/usage/basic</loc>
+  </url>
+  <url>
+    <loc>/usage/force-mode</loc>
+  </url>
+  <url>
+    <loc>/usage/configuration</loc>
+  </url>
+  <url>
+    <loc>/advanced/caveats</loc>
+  </url>
+  <url>
+    <loc>/advanced/migration</loc>
+  </url>
+  <url>
+    <loc>/contributing</loc>
+  </url>
+  <url>
+    <loc>/</loc>
+  </url>
+</urlset>

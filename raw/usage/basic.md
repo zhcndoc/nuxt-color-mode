@@ -1,0 +1,102 @@
+# 基本用法
+
+> 了解如何使用颜色模式组合函数
+
+你可以通过调用 `useColorMode()` 或在模板中直接访问 `$colorMode` 来使用颜色模式助手。该助手具有以下属性：
+
+- `preference`：实际选择的颜色模式（可以是 `'system'`），更新它可改变用户偏好的颜色模式
+- `value`：当 `$colorMode === 'system'` 时，用于了解检测到的颜色模式，不应修改它
+- `unknown`：在 SSR 或静态生成时判断是否需要渲染占位符
+- `forced`：用于判断当前颜色模式是否被当前页面强制设置（用于隐藏颜色选择器）
+
+## 示例
+
+```html [pages/index.vue]
+<template>
+  <div>
+    <h1>颜色模式: {{ $colorMode.value }}</h1>
+    <select v-model="$colorMode.preference">
+      <option value="system">系统</option>
+      <option value="light">浅色</option>
+      <option value="dark">深色</option>
+      <option value="sepia">棕褐色</option>
+    </select>
+  </div>
+</template>
+
+<script setup>
+const colorMode = useColorMode()
+
+console.log(colorMode.preference)
+</script>
+
+<style>
+body {
+  background-color: #fff;
+  color: rgba(0,0,0,0.8);
+}
+.dark body {
+  background-color: #091a28;
+  color: #ebf4f1;
+}
+.sepia body {
+  background-color: #f1e7d0;
+  color: #433422;
+}
+</style>
+```
+
+<callout>
+
+你可以在 `nuxt.config.ts` 文件中配置 `colorMode.classSuffix` 选项来修改这些类名。更多详情请参阅[配置](/usage/configuration)章节。
+
+</callout>
+
+## Tailwind CSS
+
+由于该模块会向 `<html>` 元素添加 `.dark` 类，你可以将其与 [Tailwind CSS](https://tailwindcss.com) 的暗模式结合使用。
+
+### Tailwind CSS v4
+
+在 Tailwind CSS v4 中，你需要重写 `dark` 变体以使用 `.dark` 类替代默认的 `prefers-color-scheme` 媒体查询。将以下内容添加到你的 CSS 文件：
+
+```css [assets/css/main.css]
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+你还可以为任何额外的颜色模式创建自定义变体：
+
+```css [assets/css/main.css]
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant sepia (&:where(.sepia, .sepia *));
+```
+
+然后在模板中使用这些变体：
+
+```html
+<div class="bg-white dark:bg-gray-900 sepia:bg-amber-50">
+  <h1 class="text-gray-900 dark:text-white sepia:text-amber-900">
+    Hello world
+  </h1>
+</div>
+```
+
+### Tailwind CSS v3
+
+在 Tailwind CSS v3 中，在你的 `tailwind.config.js` 中将 `darkMode` 设置为 `'selector'`（v3.4.1+）或 `'class'`：
+
+```js [tailwind.config.js]
+export default {
+  darkMode: 'selector',
+}
+```
+
+<callout>
+
+如果你正在使用带有 Tailwind CSS v3 的 `@nuxtjs/tailwindcss` v6，则该配置是自动完成的。
+
+</callout>
