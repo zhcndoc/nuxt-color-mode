@@ -1,0 +1,605 @@
+# 介绍
+
+使用 Nuxt 轻松实现带自动检测的暗黑与亮色模式 🌗
+
+## 特性
+
+- 向 `<html>` 添加可配置的 `.${color}` 类，方便 CSS 主题定制
+- 强制页面到特定颜色模式（非常适合渐进式开发）
+- 支持客户端和通用渲染
+- 自动检测系统的 [color-mode](https://drafts.csswg.org/mediaqueries-5/#descdef-media-prefers-color-mode){rel="&#x22;nofollow&#x22;"}
+
+## 在线演示
+
+查看[在线演示](https://color-mode.nuxt.dev/){rel="&#x22;nofollow&#x22;"}和[源代码](https://github.com/nuxt-modules/color-mode/tree/main/playground){rel="&#x22;nofollow&#x22;"}。
+
+
+# 安装
+
+::callout
+当前版本的 
+
+`@nuxtjs/color-mode`
+
+ 兼容 
+
+[Nuxt 3+](https://nuxt.com){rel=""nofollow""}
+
+。如果你正在寻找该模块的旧版本，请查看 
+
+[v2.color-mode.nuxtjs.org](https://v2.color-mode.nuxtjs.org/){rel=""nofollow""}
+
+。
+::
+
+## 设置
+
+将 `@nuxtjs/color-mode` 依赖添加到你的项目中：
+
+```bash
+npx nuxt module add color-mode
+```
+
+然后，将 `@nuxtjs/color-mode` 添加到你的 `nuxt.config.ts` 的 `modules` 部分：
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: [
+    '@nuxtjs/color-mode'
+  ]
+})
+```
+
+现在你可以开始在应用中使用 `.dark` 和 `.light` 类来使用颜色模式了 ✨
+
+
+# 基本用法
+
+你可以通过调用 `useColorMode()` 或在模板中直接访问 `$colorMode` 来使用颜色模式助手。该助手具有以下属性：
+
+- `preference`：实际选择的颜色模式（可以是 `'system'`），更新它可改变用户偏好的颜色模式
+- `value`：当 `$colorMode === 'system'` 时，用于了解检测到的颜色模式，不应修改它
+- `unknown`：在 SSR 或静态生成时判断是否需要渲染占位符
+- `forced`：用于判断当前颜色模式是否被当前页面强制设置（用于隐藏颜色选择器）
+
+## 示例
+
+```html [pages/index.vue]
+<template>
+  <div>
+    <h1>颜色模式: {{ $colorMode.value }}</h1>
+    <select v-model="$colorMode.preference">
+      <option value="system">系统</option>
+      <option value="light">浅色</option>
+      <option value="dark">深色</option>
+      <option value="sepia">棕褐色</option>
+    </select>
+  </div>
+</template>
+
+<script setup>
+const colorMode = useColorMode()
+
+console.log(colorMode.preference)
+</script>
+
+<style>
+body {
+  background-color: #fff;
+  color: rgba(0,0,0,0.8);
+}
+.dark body {
+  background-color: #091a28;
+  color: #ebf4f1;
+}
+.sepia body {
+  background-color: #f1e7d0;
+  color: #433422;
+}
+</style>
+```
+
+::callout
+你可以在 
+
+`nuxt.config.ts`
+
+ 文件中配置 
+
+`colorMode.classSuffix`
+
+ 选项来修改这些类名。更多详情请参阅
+
+[配置](https://nuxt-color-mode.zhcndoc.com/usage/configuration)
+
+章节。
+::
+
+## Tailwind CSS
+
+由于该模块会向 `<html>` 元素添加 `.dark` 类，你可以将其与 [Tailwind CSS](https://tailwindcss.com){rel="&#x22;nofollow&#x22;"} 的暗模式结合使用。
+
+### Tailwind CSS v4
+
+在 Tailwind CSS v4 中，你需要重写 `dark` 变体以使用 `.dark` 类替代默认的 `prefers-color-scheme` 媒体查询。将以下内容添加到你的 CSS 文件：
+
+```css [assets/css/main.css]
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+你还可以为任何额外的颜色模式创建自定义变体：
+
+```css [assets/css/main.css]
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant sepia (&:where(.sepia, .sepia *));
+```
+
+然后在模板中使用这些变体：
+
+```html
+<div class="bg-white dark:bg-gray-900 sepia:bg-amber-50">
+  <h1 class="text-gray-900 dark:text-white sepia:text-amber-900">
+    Hello world
+  </h1>
+</div>
+```
+
+### Tailwind CSS v3
+
+在 Tailwind CSS v3 中，在你的 `tailwind.config.js` 中将 `darkMode` 设置为 `'selector'`（v3.4.1+）或 `'class'`：
+
+```js [tailwind.config.js]
+export default {
+  darkMode: 'selector',
+}
+```
+
+::callout
+如果你正在使用带有 Tailwind CSS v3 的 
+
+`@nuxtjs/tailwindcss`
+
+ v6，则该配置是自动完成的。
+::
+
+
+# 强制颜色模式
+
+你可以通过使用 `definePageMeta` 设置 `colorMode` 属性，在页面级别强制指定颜色模式：
+
+```html [pages/light.vue]
+<template>
+  <h1>此页面被强制为浅色模式</h1>
+</template>
+
+<script setup>
+definePageMeta({
+  colorMode: 'light',
+})
+</script>
+```
+
+此功能非常适合通过将尚未准备好的页面设置为 `colorMode: 'light'` 来逐步为网站实现暗色模式。
+
+::callout
+我们建议隐藏或禁用页面上的颜色模式选择器，因为它无法更改当前页面的颜色模式，可以通过使用 
+
+`$colorMode.forced`
+
+ 值来判断。
+::
+
+
+# 配置
+
+你可以通过在 `nuxt.config.ts` 中提供 `colorMode` 属性来配置该模块。以下是默认选项：
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['@nuxtjs/color-mode'],
+  colorMode: {
+    preference: 'system', // $colorMode.preference 的默认值
+    fallback: 'light', // 未检测到系统偏好时的回退值
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storage: 'localStorage', // 或 'sessionStorage' 或 'cookie'
+    storageKey: 'nuxt-color-mode',
+    cookieAttrs: { 'max-age': '31536000', path: '/' }
+  }
+})
+```
+
+## 选项
+
+### `preference`
+
+- 类型：`string`
+- 默认值：`'system'`
+
+默认的颜色模式偏好。`'system'` 是一个特殊值，会根据系统偏好自动检测颜色模式。
+
+### `fallback`
+
+- 类型：`string`
+- 默认值：`'light'`
+
+如果未检测到系统偏好，则使用的回退颜色模式值。
+
+### `dataValue`
+
+- 类型：`string`
+- 默认值：`undefined`
+
+可选的数据集属性，添加到 `<html>` 元素上。例如，如果设置 `dataValue: 'theme'`，则会在 `<html>` 上添加 `data-theme="dark"`。这对于使用 daisyUI 等库时非常有用。
+
+### `storage`
+
+- 类型：`'localStorage' | 'sessionStorage' | 'cookie'`
+- 默认值：`'localStorage'`
+
+用于持久化颜色模式偏好的存储类型。
+
+### `storageKey`
+
+- 类型：`string`
+- 默认值：`'nuxt-color-mode'`
+
+存储的键名。
+
+### `cookieAttrs`
+
+- 类型：`object`
+- 默认值：`{ 'max-age': '31536000', path: '/' }`
+
+当 `storage` 设置为 `'cookie'` 时，设置 cookie 的属性。默认情况下，cookie 设置为一年有效期并且作用域为根路径。
+
+你可以覆盖这些属性以自定义 cookie 行为，例如设置 `SameSite` 或 `Secure`：
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['@nuxtjs/color-mode'],
+  colorMode: {
+    storage: 'cookie',
+    cookieAttrs: {
+      'max-age': '31536000',
+      'path': '/',
+      'SameSite': 'Lax',
+      'Secure': '',
+    }
+  }
+})
+```
+
+
+# 注意事项
+
+当 `$colorMode.preference` 设置为 `'system'` 时，在你的 Vue 模板中使用 `$colorMode` 会导致闪烁。这是因为在预渲染页面时无法知道用户偏好，因为这些偏好是在客户端检测的。
+
+## 避免闪烁
+
+为了避免闪烁，你必须使用 `$colorMode.unknown` 来保护任何依赖 `$colorMode` 的渲染路径，以渲染占位符，或者使用 `<ColorScheme>` 组件。
+
+### 示例
+
+```vue
+<template>
+  <ColorScheme placeholder="..." tag="span">
+    Color mode: <b>{{ $colorMode.preference }}</b>
+    <span v-if="$colorMode.preference === 'system'">
+      (<i>{{ $colorMode.value }}</i> 模式被检测)
+    </span>
+  </ColorScheme>
+</template>
+```
+
+
+# 迁移指南
+
+## 迁移到 v4
+
+`@nuxtjs/color-mode` 的 v4 版本要求 Nuxt 3+，不再支持 Nuxt Bridge。它还引入了若干重大变更以优化模块。
+
+### 主要变化
+
+#### 1. 去除默认类后缀
+
+默认的 `classSuffix` 已被移除。如果你之前依赖默认的 `-mode` 后缀，需在配置中显式设置：
+
+```ts
+export default defineNuxtConfig({
+  colorMode: {
+    classSuffix: '-mode'
+  }
+})
+```
+
+或者更新你的 CSS 类，去掉后缀：
+
+```diff
+- .dark-mode { }
+- .light-mode { }
++ .dark { }
++ .light { }
+```
+
+#### 2. 不再支持 CommonJS
+
+该模块不再提供 CommonJS 构建，确保你的项目使用 ESM（Nuxt 3 的默认配置）。
+
+#### 3. 颜色模式值只读
+
+无法再直接设置 `colorMode.value`，请改用 `colorMode.preference`：
+
+```diff
+<script setup>
+const colorMode = useColorMode()
+
+- colorMode.value = 'dark'
++ colorMode.preference = 'dark'
+</script>
+```
+
+`value` 属性现在是只读的，反映实际使用的颜色模式（使用系统偏好检测时，可能与 `preference` 不同）。
+
+#### 4. 移除 `hid` 选项
+
+已废弃的 `hid` 配置选项已被移除。如果你之前使用了它，直接删除即可：
+
+```diff
+export default defineNuxtConfig({
+  colorMode: {
+-   hid: 'nuxt-color-mode-script',
+    preference: 'system',
+  }
+})
+```
+
+#### 5. 不再支持 Nuxt Bridge
+
+不再支持 Nuxt Bridge。如果你仍在使用 Nuxt Bridge，建议继续使用 v3。否则请升级到 Nuxt 3+。
+
+---
+
+## 迁移到 v3
+
+`@nuxtjs/color-mode` 的 v3 版本需要 Nuxt Bridge 或 Nuxt 3+。如果你使用的是不带 Bridge 的 Nuxt 2，建议继续使用 v2。
+
+## 主要变化
+
+### 1. 页面元信息配置
+
+Nuxt 2 → Nuxt 3+ 之间的主要变化是在页面级别定义颜色模式，使用 `definePageMeta`：
+
+```diff
+<template>
+  <h1>此页面强制使用浅色模式</h1>
+</template>
+
+- <script>
+- export default {
+-   colorMode: 'light',
+- }
++ <script setup>
++ definePageMeta({
++   colorMode: 'light',
++ })
+</script>
+```
+
+::callout{type="warning"}
+如果你使用 Nuxt Bridge，不应使用 
+
+`definePageMeta`
+
+，应继续使用组件选项方式的 
+
+`colorMode`
+
+。
+::
+
+### 2. 组合式 API
+
+`$colorMode` helper 保持不变，但新增了组合式函数 (`useColorMode`)，这是推荐的访问颜色模式信息的方式。
+
+```vue
+<script setup>
+const colorMode = useColorMode()
+
+// 访问属性
+console.log(colorMode.preference)
+console.log(colorMode.value)
+</script>
+```
+
+### 3. 类型导入
+
+如果你直接导入颜色模式配置类型，注意名称已改为 `ModuleOptions`。
+
+```ts
+// 之前
+import type { ColorModeConfig } from '@nuxtjs/color-mode'
+
+// 之后
+import type { ModuleOptions } from '@nuxtjs/color-mode'
+```
+
+
+# 贡献
+
+欢迎贡献！以下是您可以帮助改进 Nuxt Color Mode 的方法。
+
+## 开发环境搭建
+
+1. 克隆仓库：
+
+```bash
+git clone https://github.com/nuxt-modules/color-mode.git
+cd color-mode
+```
+
+2. 安装依赖：
+
+```bash
+pnpm install
+```
+
+3. 启动开发服务器：
+
+```bash
+pnpm dev
+```
+
+这将在 `http://localhost:3000` 启动 playground。
+
+## 项目结构
+
+- `src/` - 模块源代码
+- `playground/` - 开发测试 playground
+- `docs/` - 文档网站
+- `test/` - 测试套件
+
+## Pull Requests
+
+1. Fork 仓库
+2. 为您的功能或修复创建新分支
+3. 进行更改
+4. 如适用，添加测试
+5. 运行测试套件：`pnpm test`
+6. 遵循 [Conventional Commits](https://www.conventionalcommits.org/){rel="&#x22;nofollow&#x22;"} 提交更改
+7. 提交 Pull Request
+
+## 问题反馈
+
+发现 BUG 或有功能请求？请在 [GitHub](https://github.com/nuxt-modules/color-mode/issues){rel="&#x22;nofollow&#x22;"} 上提交 issue。
+
+
+# Nuxt Color Mode
+
+::u-page-hero
+---
+orientation: horizontal
+---
+#title
+[自动检测]{.text-primary} :br 深色和浅色模式
+
+#description
+适用于 Nuxt 的即插即用 Color Mode 模块，轻松实现自动检测。通过 `.dark` 和 `.light` 类名轻松为您的应用设置主题。
+
+#links
+  :::u-button
+  ---
+  icon: i-ph-rocket-launch-duotone
+  size: xl
+  to: https://nuxt-color-mode.zhcndoc.com/getting-started
+  ---
+  快速开始
+  :::
+
+:copy-code-input{source="npx nuxt module add color-mode"}
+::
+
+::u-page-section
+#title
+充分利用您的应用的 :br [强大功能]{.text-primary}
+
+#features
+  :::u-page-card
+  ---
+  icon: i-ph-moon-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/usage/basic
+  ---
+  #title
+  自动检测
+
+  #description
+  自动检测用户的系统颜色模式偏好，并应用于您的应用。
+  :::
+
+  :::u-page-card
+  ---
+  icon: i-ph-palette-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/usage/basic
+  ---
+  #title
+  简易 CSS 主题化
+
+  #description
+  向您的 CSS 添加 `.dark` 和 `.light` 类，实现轻松主题化。
+  :::
+
+  :::u-page-card
+  ---
+  icon: i-ph-lock-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/usage/force-mode
+  ---
+  #title
+  页面强制模式
+
+  #description
+  将特定页面锁定为某一颜色模式，适合渐进式暗黑模式实现。
+  :::
+
+  :::u-page-card
+  ---
+  icon: i-ph-gear-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/usage/configuration
+  ---
+  #title
+  高度可配置
+
+  #description
+  可自定义存储方案、回退机制、类名等，满足您的需求。
+  :::
+
+  :::u-page-card
+  ---
+  icon: i-ph-brackets-angle-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/usage/basic
+  ---
+  #title
+  SSR 准备就绪
+
+  #description
+  无缝兼容客户端和服务器端渲染。
+  :::
+
+  :::u-page-card
+  ---
+  icon: i-ph-puzzle-piece-duotone
+  to: https://nuxt-color-mode.zhcndoc.com/getting-started/installation
+  ---
+  #title
+  框架支持
+
+  #description
+  开箱即用，支持 Tailwind CSS 及其他流行 CSS 框架。
+  :::
+::
+
+::u-page-section
+---
+align: center
+---
+#title
+数千名开发者的信赖之选
+
+#description
+Nuxt Color Mode 被全球各公司和开发者使用，提供无缝的暗黑模式体验。
+
+#links
+  :::u-button
+  ---
+  icon: i-ph-rocket-launch-duotone
+  size: xl
+  to: https://nuxt-color-mode.zhcndoc.com/getting-started
+  ---
+  快速开始
+  :::
+::
