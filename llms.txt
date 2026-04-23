@@ -1,0 +1,20 @@
+# Nuxt Color Mode 中文文档
+
+## Documentation Sets
+
+- [Nuxt Color Mode 中文文档](https://nuxt-color-mode.zhcndoc.com/llms-full.txt)
+
+## Docs
+
+- [介绍](https://nuxt-color-mode.zhcndoc.com/raw/getting-started.md): 使用 Nuxt 轻松实现带自动检测的暗黑与亮色模式 🌗
+- [安装](https://nuxt-color-mode.zhcndoc.com/raw/getting-started/installation.md): 学习如何安装和配置 Nuxt 颜色模式
+- [基本用法](https://nuxt-color-mode.zhcndoc.com/raw/usage/basic.md): 了解如何使用颜色模式组合函数
+- [强制颜色模式](https://nuxt-color-mode.zhcndoc.com/raw/usage/force-mode.md): 学习如何在页面上强制使用特定颜色模式
+- [配置](https://nuxt-color-mode.zhcndoc.com/raw/usage/configuration.md): 配置颜色模式模块
+- [注意事项](https://nuxt-color-mode.zhcndoc.com/raw/advanced/caveats.md): 使用颜色模式时的重要考虑
+- [迁移指南](https://nuxt-color-mode.zhcndoc.com/raw/advanced/migration.md): 主要版本之间迁移指南
+- [贡献](https://nuxt-color-mode.zhcndoc.com/raw/contributing.md): 了解如何为 Nuxt Color Mode 做出贡献
+
+## Landing
+
+- [Nuxt Color Mode](https://nuxt-color-mode.zhcndoc.com/raw/index.md): 使用 Nuxt 轻松实现自动检测的暗黑和亮色模式 🌗
