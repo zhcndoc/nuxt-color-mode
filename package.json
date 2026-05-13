@@ -7,7 +7,7 @@
     "url": "git+https://github.com/nuxt-modules/color-mode.git"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.33.4",
   "contributors": [
     {
       "name": "Nuxt Team"
@@ -45,33 +45,36 @@
     "test": "vitest run --coverage && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.4.2",
+    "@nuxt/kit": "^4.4.4",
     "exsolve": "^1.0.8",
     "pathe": "^2.0.3",
-    "pkg-types": "^2.3.0",
-    "semver": "^7.7.4"
+    "pkg-types": "^2.3.1",
+    "semver": "^7.8.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/cli": "^21.0.0",
+    "@commitlint/config-conventional": "^21.0.0",
     "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/module-builder": "^1.0.2",
-    "@nuxt/schema": "^4.4.2",
-    "@nuxt/test-utils": "^4.0.2",
+    "@nuxt/schema": "^4.4.4",
+    "@nuxt/test-utils": "^4.0.3",
     "@types/lodash.template": "^4.5.3",
     "@types/semver": "^7.7.1",
-    "@typescript-eslint/parser": "^8.59.0",
-    "@vitest/coverage-v8": "^4.1.4",
-    "bumpp": "^11.0.1",
+    "@typescript-eslint/parser": "^8.59.3",
+    "@vitest/coverage-v8": "^4.1.6",
+    "bumpp": "^11.1.0",
     "changelogithub": "^14.0.0",
     "esbuild": "^0.28.0",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "husky": "9.1.7",
-    "nuxt": "^4.4.2",
-    "pkg-pr-new": "^0.0.66",
+    "nuxt": "^4.4.4",
+    "pkg-pr-new": "^0.0.71",
     "typescript": "^6.0.3",
     "unbuild": "^3.6.1",
-    "vitest": "^4.1.4",
-    "vue-tsc": "^3.2.7"
+    "vitest": "^4.1.6",
+    "vue-tsc": "^3.2.8"
+  },
+  "resolutions": {
+    "h3": "1.15.11"
   }
 }
