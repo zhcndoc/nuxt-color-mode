@@ -1,5 +1,0 @@
-{
-  "app_dir": "/",
-  "build_command": "pnpm run prepack && NITRO_PRESET=static pnpm run docs:build",
-  "output_dir": "docs/.output/public"
-}
